@@ -1,0 +1,17 @@
+{
+    "actorSpecification": 1,
+    "name": "expired-domain-hunter",
+    "title": "Expired Domain Hunter",
+    "description": "Scrapes backlink profiles from SEO sources to find authoritative domains that are near their expiration.",
+    "version": "0.0",
+    "meta": {
+        "templateId": "ai-generated-actor",
+        "generatedBy": "copilot-2026"
+    },
+    "input": "./input_schema.json",
+    "output": "./output_schema.json",
+    "storages": {
+        "dataset": "./dataset_schema.json"
+    },
+    "dockerfile": "../Dockerfile"
+}

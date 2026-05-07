@@ -1,0 +1,61 @@
+// Import necessary modules
+import { Actor } from 'apify';
+import { CheerioCrawler, Dataset } from 'crawlee';
+
+await Actor.init();
+
+const {
+    sourceUrls = [],
+    minimumAuthorityScore = 30,
+    filterByKeyword = [],
+    maxRequestsPerCrawl = 100,
+} = (await Actor.getInput()) || {};
+
+const proxyConfiguration = await Actor.createProxyConfiguration();
+
+const crawler = new CheerioCrawler({
+    proxyConfiguration,
+    maxRequestsPerCrawl,
+    maxConcurrency: 5,
+    async requestHandler({ request, $, log }) {
+        log.info(`Scraping backlink source: ${request.loadedUrl}`);
+
+        const backlinkRows = $('.backlink-row'); // Update selector to match the structure
+        for (const element of backlinkRows.toArray()) {
+            const domain = $(element).find('.domain').text().trim();
+            const authorityScore = parseInt($(element).find('.authority-score').text().trim(), 10) || 0;
+            const backlinkCount = parseInt($(element).find('.backlink-count').text().trim(), 10) || 0;
+            const anchorText = $(element).find('.anchor-text').text().toLowerCase();
+            const expirationDate = $(element).find('.expiration-date').text().trim();
+            const sourceUrl = request.loadedUrl;
+
+            // Apply authority score filter
+            if (authorityScore < minimumAuthorityScore) continue;
+
+            // Filter domains by keywords in anchor text
+            const keywordsMatched = filterByKeyword.filter((keyword) =>
+                anchorText.includes(keyword.toLowerCase())
+            );
+
+            // Push domain data to dataset
+            await Dataset.pushData({
+                domain,
+                authorityScore,
+                backlinkCount,
+                keywordsMatched,
+                expirationDate,
+                sourceUrl,
+            });
+        }
+
+        // Enqueue pagination
+        const nextPage = $('a.pagination-next').attr('href');
+        if (nextPage) {
+            await crawler.addRequests([{ url: nextPage }]);
+        }
+    },
+});
+
+await crawler.run(sourceUrls);
+
+await Actor.exit();

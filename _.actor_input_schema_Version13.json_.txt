@@ -1,0 +1,37 @@
+{
+    "title": "Input Schema for Expired Domain Hunter",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "sourceUrls": {
+            "title": "Source Backlink Profile URLs",
+            "type": "array",
+            "description": "List of URLs from backlink profile pages (e.g., backlinks from SEO tools like Ahrefs, Majestic, or public archives).",
+            "editor": "requestListSources",
+            "prefill": [
+                {
+                    "url": "https://example.com/backlinks"
+                }
+            ]
+        },
+        "minimumAuthorityScore": {
+            "title": "Minimum Authority Score",
+            "type": "integer",
+            "description": "Filter domains with an authority score above this value (e.g., Domain Authority 30+).",
+            "default": 30
+        },
+        "filterByKeyword": {
+            "title": "Filter Domains by Keyword in Anchor Text",
+            "type": "array",
+            "description": "Filter domains by specific keywords in anchor text (optional).",
+            "editor": "stringArray",
+            "default": ["technology", "finance", "education"]
+        },
+        "maxRequestsPerCrawl": {
+            "title": "Maximum Backlink Pages to Scrape",
+            "type": "integer",
+            "description": "The maximum number of backlink pages to scrape during a session.",
+            "default": 100
+        }
+    }
+}

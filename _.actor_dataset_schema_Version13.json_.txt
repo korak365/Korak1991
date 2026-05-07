@@ -1,0 +1,66 @@
+{
+    "actorSpecification": 1,
+    "fields": {
+        "domain": {
+            "type": "string",
+            "title": "Domain"
+        },
+        "authorityScore": {
+            "type": "integer",
+            "title": "Authority Score"
+        },
+        "backlinkCount": {
+            "type": "integer",
+            "title": "Total Backlinks"
+        },
+        "keywordsMatched": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "title": "Keywords Matched in Anchor Text"
+        },
+        "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "title": "Expiration Date"
+        },
+        "sourceUrl": {
+            "type": "string",
+            "title": "Backlink Source URL"
+        }
+    },
+    "views": {
+        "overview": {
+            "title": "Overview",
+            "transformation": {
+                "fields": ["domain", "authorityScore", "expirationDate", "keywordsMatched", "sourceUrl"]
+            },
+            "display": {
+                "component": "table",
+                "properties": {
+                    "domain": {
+                        "label": "Domain",
+                        "format": "text"
+                    },
+                    "authorityScore": {
+                        "label": "Authority Score",
+                        "format": "number"
+                    },
+                    "expirationDate": {
+                        "label": "Expiration Date",
+                        "format": "date"
+                    },
+                    "keywordsMatched": {
+                        "label": "Keywords Matched",
+                        "format": "array"
+                    },
+                    "sourceUrl": {
+                        "label": "Source URL",
+                        "format": "link"
+                    }
+                }
+            }
+        }
+    }
+}

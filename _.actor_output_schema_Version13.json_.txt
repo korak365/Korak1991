@@ -1,0 +1,11 @@
+{
+    "actorOutputSchemaVersion": 1,
+    "title": "Output Schema for Expired Domain Hunter",
+    "properties": {
+        "overview": {
+            "type": "string",
+            "title": "Domain Hunting Overview",
+            "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+        }
+    }
+}
